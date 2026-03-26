@@ -129,10 +129,22 @@ def generate_sql_query(question: str, datasets: Dict[str, pd.DataFrame]) -> Dict
         }
     
     except Exception as e:
+        error_msg = str(e)
+
+        # 🎯 Handle quota / rate limit errors
+        if "quota" in error_msg.lower() or "429" in error_msg:
+            return {
+                "success": False,
+                "error": "⚠️ I'm currently experiencing high usage and can't process your request right now.\n\n"
+                        "Please try again in a few seconds.\n\n"
+                        "💡 Tip: Try a simpler query or wait a moment before retrying."
+            }
+
+        # 🎯 Generic fallback
         return {
             "success": False,
-            "error": f"Error generating query: {str(e)}",
-            "answer": None
+            "error": "⚠️ Something went wrong while processing your request.\n\n"
+                    "Please try again or rephrase your question."
         }
 
 def execute_query(sql_query: str, datasets: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
