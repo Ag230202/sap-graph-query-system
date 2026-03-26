@@ -11,7 +11,7 @@ import 'reactflow/dist/style.css';
 import './App.css';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = process.env.REACT_APP_API_URL;;
 
 // Node color mapping by type
 const getNodeColor = (type) => {
