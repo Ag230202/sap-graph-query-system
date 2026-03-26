@@ -26,7 +26,11 @@ def load_jsonl(folder_name):
 def load_all_data():
     """Load all JSONL files from /app/data into pandas DataFrames"""
     
-    base_path = "/app/data"   # ✅ IMPORTANT (Docker path)
+    import os
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    base_path = os.path.join(BASE_DIR, "../data")
     datasets = {}
 
     print("Loading data from:", base_path)
